@@ -145,7 +145,7 @@ def listar_productos():
         for producto in productos:
             response.append({
                 'codigo': producto['codigo'],
-                'nombre': producto['codigo'],
+                'nombre': producto['nombre'],
                 'descripcion': producto['descripcion'],
                 'stock': producto['stock'],
                 'precio': producto['precio'],

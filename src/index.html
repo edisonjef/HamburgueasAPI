@@ -4,14 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Frontend API de Productos</title>
-  <link rel="stylesheet" href="estilos.css">
+  <title>Frontend API de Hamburguesas</title>
+  <link rel="stylesheet" href="/src/CSS/estilos.css">
+  <link rel="stylesheet" href="/src/CSS/indexstyle.css">
+  <link rel="stylesheet" href="/src/CSS/styles.css">
+  
 </head>
 
 
 <body>
+  <div class="contenedor_index">
+    <header>
+        <img class="cimg" src="/src/Media/Logo hor white.png" alt="Logo de VisualBurger">
+    </header>
+    <nav class="barnav">
+        <a class="linkbar2" href="menu.html">MENÚ</a>
+        <a class="linkbar" href="contacto.html">Contacto</a>
+        <a class="linkbar" href="ubicacion.html">Sucursales</a>
+        <a class="linkbar" href="nutricion.html">Nutrición</a>
+    </nav>
   <div id="app">
-    <h1>Listado de Productos</h1>
+    <h1>Listado de Hamburguesas</h1>
     <div class="contenedor-centrado">
       <table>
         <thead>
@@ -38,10 +51,10 @@
       </table>
     </div>
 
-    <h1>Consultar Producto</h1>
+    <h1>Consultar Hamburguesas en Venta</h1>
     <div class="contenedor-centrado">
       <form @submit.prevent="consultarProducto">
-        <label for="consultaCodigo">Código del producto:</label>
+        <label for="consultaCodigo">Código:</label>
         <input type="number" id="consultaCodigo" v-model="consultaCodigo" required>
         <button type="submit">Consultar</button>
         <div v-if="consultaResultado">{{ consultaResultado }}</div>
@@ -49,7 +62,7 @@
     </div>
 
 
-    <h1>Alta de Producto</h1>
+    <h1>Alta de Hamburguesas</h1>
     <form @submit.prevent="altaProducto">
       <label for="altaNombre">Nombre Hamburguesa:</label>
       <input type="text" id="altaNombre" v-model="altaNombre" required>
@@ -64,7 +77,7 @@
       <div v-if="altaResultado">{{ altaResultado }}</div>
     </form>
 
-    <h1>Modificar Producto</h1>
+    <h1>Modificar Hamburguesas en venta</h1>
     <form @submit.prevent="modificarProducto">
       <label for="modificarCodigo">Código del producto:</label>
       <input type="number" id="modificarCodigo" v-model="modificarCodigo" required>
@@ -80,6 +93,15 @@
       <div v-if="modificarResultado">{{ modificarResultado }}</div>
     </form>
   </div>
+  <footer>
+    <div class="iconos-footer">
+        <img src="/src/Media/IG.png" alt="Icono 1">
+        <img src="/src/Media/IG.png" alt="Icono 2">
+        <img src="/src/Media/IG.png" alt="Icono 3">
+    </div>
+    <p class="derechos-reservados"></p>
+</footer>
+
 
 
   <script src="https://unpkg.com/vue@next"></script>
@@ -198,6 +220,7 @@
     app.mount('#app');  
   </script>
 
+</div>
 </body>
 
 </html>
