@@ -1,227 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Frontend API de Hamburguesas</title>
-  <link rel="stylesheet" href="/src/CSS/estilos.css">
-  <link rel="stylesheet" href="/src/CSS/indexstyle.css">
-  <link rel="stylesheet" href="/src/CSS/styles.css">
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="interno_css.css">
+    <title>Gestión de Productos</title>
 </head>
 
-
 <body>
-  <div class="contenedor_index">
     <header>
-        <img class="cimg" src="/src/Media/Logo hor white.png" alt="Logo de VisualBurger">
+        <img class="cimg" src="Logo hor white.png" alt="Logo de VisualBurger">
     </header>
-    <nav class="barnav">
-        <a class="linkbar2" href="menu.html">MENÚ</a>
-        <a class="linkbar" href="contacto.html">Contacto</a>
-        <a class="linkbar" href="ubicacion.html">Sucursales</a>
-        <a class="linkbar" href="nutricion.html">Nutrición</a>
-    </nav>
-  <div id="app">
-    <h1>Listado de Hamburguesas</h1>
-    <div class="contenedor-centrado">
-      <table>
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Stock</th>
-
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="producto in productos" :key="producto.codigo">
-            <td>{{ producto.codigo }}</td>
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.descripcion }}</td>
-            <td>{{ producto.precio }}</td>
-            <td>{{ producto.stock }}</td>
-
-          </tr>
-        </tbody>
-      </table>
+    <div class="divh1">
+        <h1>Gestión de Productos</h1>
     </div>
+    <div id="app">
+        <h2>Listado de Productos</h2>
+        <div class="contenedor-centrado">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Stock</th>
+                        <th>Precio</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="producto in productos" :key="producto.nombre">
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.descripcion }}</td>
+                        <td>{{ producto.stock }}</td>
+                        <td>{{ producto.precio }}</td>
+                        <td><button @click="editarProducto(index)">Editar</button></td>
+                </tbody>
+            </table>
+        </div>
+        <a href="#modifi">Editar</a>
+        <h2 class="rojo">Consultar Producto</h2>
+        <div class="contenedor-centrado">
+            <form @submit.prevent="consultarProducto">
+                <label for="consultaNombre">Nombre del producto:</label>
+                <input type="number" id="consultaNombre" v-model="consultaNombre" required>
+                <button type="submit">Consultar</button>
+                <div v-if="consultaResultado">{{ consultaResultado }}</div>
+            </form>
+        </div>
 
-    <h1>Consultar Hamburguesas en Venta</h1>
-    <div class="contenedor-centrado">
-      <form @submit.prevent="consultarProducto">
-        <label for="consultaCodigo">Código:</label>
-        <input type="number" id="consultaCodigo" v-model="consultaCodigo" required>
-        <button type="submit">Consultar</button>
-        <div v-if="consultaResultado">{{ consultaResultado }}</div>
-      </form>
+
+        <h2 class="verde">Alta de Producto</h2>
+        <form @submit.prevent="altaProducto">
+            <label for="altaNombre">Nombre:</label>
+            <input type="text" id="altaNombre" v-model="altaNombre" required>
+            <label for="altaDescripcion">Descripción:</label>
+            <input type="text" id="altaDescripcion" v-model="altaDescripcion" required>
+            <label for="altaStock">Stock:</label>
+            <input type="number" id="altaStock" v-model="altaStock" required>
+            <label for="altaPrecio">Precio:</label>
+            <input type="number" step="0.01" id="altaPrecio" v-model="altaPrecio" required>
+            <button type="submit">Dar de Alta</button>
+            <div v-if="altaResultado">{{ altaResultado }}</div>
+        </form>
+        <h2 class="naranja">Modificar Producto</h2>
+        <form @submit.prevent="modificarProducto">
+            <label for="modificarNombre">Nombre del producto:</label>
+            <input type="text" id="modificarNombre" v-model="modificarNombre" required>
+            <label for="modificarNuevaDescripcion">Nueva Descripción:</label>
+            <input type="text" id="modificarNuevaDescripcion" v-model="modificarNuevaDescripcion" required>
+            <label for="modificarNuevoStock">Nuevo Stock:</label>
+            <input type="number" id="modificarNuevoStock" v-model="modificarNuevoStock" required>
+            <label for="modificarNuevoPrecio">Nuevo Precio:</label>
+            <input type="number" step="0.01" id="modificarNuevoPrecio" v-model="modificarNuevoPrecio" required>
+            <button type="submit">Modificar</button>
+            <div v-if="modificarResultado">{{ modificarResultado }}</div>
+        </form>
     </div>
-
-
-    <h1>Alta de Hamburguesas</h1>
-    <form @submit.prevent="altaProducto">
-      <label for="altaNombre">Nombre Hamburguesa:</label>
-      <input type="text" id="altaNombre" v-model="altaNombre" required>
-      <label for="altaDescripcion">Descripción:</label>
-      <input type="text" id="altaDescripcion" v-model="altaDescripcion" required>
-      <label for="altaPrecio">Precio:</label>
-      <input type="number" step="0.01" id="altaPrecio" v-model="altaPrecio" required>
-      <label for="altaStock">Stock:</label>
-      <input type="number" id="altaStock" v-model="altaStock" required>
-
-      <button type="submit">Dar de Alta</button>
-      <div v-if="altaResultado">{{ altaResultado }}</div>
-    </form>
-
-    <h1>Modificar Hamburguesas en venta</h1>
-    <form @submit.prevent="modificarProducto">
-      <label for="modificarCodigo">Código del producto:</label>
-      <input type="number" id="modificarCodigo" v-model="modificarCodigo" required>
-      <label for="modificarNuevoNombre">Nuevo Nombre:</label>
-      <input type="text" id="modificarNuevoNombre" v-model="modificarNuevoNombre" required>
-      <label for="modificarNuevaDescripcion">Nueva Descripción:</label>
-      <input type="text" id="modificarNuevaDescripcion" v-model="modificarNuevaDescripcion" required>
-      <label for="modificarNuevoPrecio">Nuevo Precio:</label>
-      <input type="number"  step="0.01" id="modificarNuevoPrecio" v-model="modificarNuevoPrecio" required>
-      <label for="modificarNuevoStock">Nuevo Stock:</label>
-      <input type="number" id="modificarNuevoStock" v-model="modificarNuevoStock" required>
-      <button type="submit">Modificar</button>
-      <div v-if="modificarResultado">{{ modificarResultado }}</div>
-    </form>
-  </div>
-  <footer>
-    <div class="iconos-footer">
-        <img src="/src/Media/IG.png" alt="Icono 1">
-        <img src="/src/Media/IG.png" alt="Icono 2">
-        <img src="/src/Media/IG.png" alt="Icono 3">
-    </div>
-    <p class="derechos-reservados"></p>
-</footer>
-
-
-
-  <script src="https://unpkg.com/vue@next"></script>
-  <script>
-    const URL = "ApiEdison.pythonanywhere.com"
-    const app = Vue.createApp({
-      data() {
-        return {
-          productos: [],
-          consultaCodigo: '',
-          consultaResultado: '',
-          altaResultado: '',
-          modificarResultado: '',
-          altaCodigo: '',
-          altaNombre: '',
-          altaDescripcion: '',
-          altaPrecio: '',
-          altaStock: '',
-          modificarCodigo: '',
-          modificarNuevoNombre: '',
-          modificarNuevaDescripcion: '',
-          modificarNuevoStock: '',
-          modificarNuevoPrecio: ''
-        };
-      },
-      methods: {
-        consultarProducto() {
-          fetch(URL + `/productos/${this.consultaCodigo}`)
-            .then(response => response.json())
-            .then(producto => {
-              if (producto) {
-                this.consultaResultado = `Código: ${producto.codigo}, Descripción: ${producto.descripcion}, Stock: ${producto.stock}, Precio: ${producto.precio}`;
-              } else {
-                this.consultaResultado = 'Producto no encontrado';
-              }
-            })
-            .catch(error => {
-              console.error(error);
-              this.consultaResultado = 'Error al realizar la consulta';
-            });
-        },
-        altaProducto() {
-          fetch(URL + '/productos', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              nombre: this.altaNombre,
-              descripcion: this.altaDescripcion,
-              precio: this.altaPrecio,
-              stock: this.altaStock
-            })
-          })
-            .then(response => {
-              if (response.ok) {
-                this.altaCodigo = '';
-                this.altaNombre = '';
-                this.altaDescripcion = '';
-                this.altaStock = '';
-                this.altaPrecio = '';
-                this.listarProductos();
-              } else {
-                this.altaResultado = 'Alta no efectuada';
-              }
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        },
-        modificarProducto() {
-          fetch(URL + `/productos/${this.modificarCodigo}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              nombre: this.modificarNuevoNombre,
-              descripcion: this.modificarNuevaDescripcion,
-              precio: this.modificarNuevoPrecio,
-              stock: this.modificarNuevoStock
-              
-            })
-          })
-            .then(response => {
-              if (response.ok) {
-                this.modificarCodigo = '';
-                this.modificarNuevaDescripcion = '';
-                this.modificarNuevoStock = '';
-                this.modificarNuevoPrecio = '';
-                this.listarProductos();
-                this.modificarResultado = 'Modificación realizada';
-              } else {
-                this.modificarResultado = 'Modificación no efectuada';
-              }
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        },
-        listarProductos() {
-          fetch(URL + '/productos')
-            .then(response => response.json())
-            .then(productos => {
-              this.productos = productos;
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        }
-      },
-      mounted() {
-        this.listarProductos();
-      }
-    });
-
-    app.mount('#app');  
-  </script>
-
-</div>
+    <a name="modifi"></a>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="interno.js"></script>
 </body>
 
 </html>
