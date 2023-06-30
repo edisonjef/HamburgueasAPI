@@ -18,6 +18,7 @@ const app = Vue.createApp({
             mDescripcion: '',
             mStock: '',
             mPrecio: '',
+            mCodigo: ''
         };
     },
     methods: {
@@ -26,7 +27,22 @@ const app = Vue.createApp({
                 .then(response => response.json())
                 .then(producto => {
                     if (producto) {
-                        this.consultaResultado = `Nombre: ${producto.nombre}, Descripción: ${producto.descripcion}, Stock: ${producto.stock}, Precio: ${producto.precio}`;
+                        this.consultaResultado = `
+                            <table>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Stock</th>
+                                    <th>Precio</th>
+                                </tr>
+                                <tr>
+                                    <td>${producto.nombre}</td>
+                                    <td>${producto.descripcion}</td>
+                                    <td>${producto.stock}</td>
+                                    <td>${producto.precio}</td>
+                                </tr>
+                            </table>
+                    `;
                     } else {
                         this.consultaResultado = 'Producto no encontrado';
                     }
@@ -75,6 +91,7 @@ const app = Vue.createApp({
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    codigo: this.mCodigo,
                     descripcion: this.modificarNuevaDescripcion,
                     stock: this.modificarNuevoStock,
                     precio: this.modificarNuevoPrecio
@@ -112,7 +129,7 @@ const app = Vue.createApp({
         editarProducto(index) {
             const formulario = document.getElementById('formularioModificar');
             formulario.scrollIntoView({ behavior: 'smooth' });
-            
+
             /*
             const producto = this.productos[index];
             this.mNombre = producto.nombre;
