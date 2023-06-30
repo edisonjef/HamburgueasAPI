@@ -13,7 +13,12 @@ const app = Vue.createApp({
             modificarNombre: '',
             modificarNuevaDescripcion: '',
             modificarNuevoStock: '',
-            modificarNuevoPrecio: ''
+            modificarNuevoPrecio: '',
+            mNombre: '',
+            mDescripcion: '',
+            mStock: '',
+            mPrecio: '',
+            mCodigo: ''
         };
     },
     methods: {
@@ -22,7 +27,22 @@ const app = Vue.createApp({
                 .then(response => response.json())
                 .then(producto => {
                     if (producto) {
-                        this.consultaResultado = `Nombre: ${producto.nombre}, Descripción: ${producto.descripcion}, Stock: ${producto.stock}, Precio: ${producto.precio}`;
+                        this.consultaResultado = `
+                            <table>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Stock</th>
+                                    <th>Precio</th>
+                                </tr>
+                                <tr>
+                                    <td>${producto.nombre}</td>
+                                    <td>${producto.descripcion}</td>
+                                    <td>${producto.stock}</td>
+                                    <td>${producto.precio}</td>
+                                </tr>
+                            </table>
+                    `;
                     } else {
                         this.consultaResultado = 'Producto no encontrado';
                     }
@@ -71,6 +91,7 @@ const app = Vue.createApp({
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    codigo: this.mCodigo,
                     descripcion: this.modificarNuevaDescripcion,
                     stock: this.modificarNuevoStock,
                     precio: this.modificarNuevoPrecio
@@ -106,19 +127,22 @@ const app = Vue.createApp({
                 });
         },
         editarProducto(index) {
+            const formulario = document.getElementById('formularioModificar');
+            formulario.scrollIntoView({ behavior: 'smooth' });
+
+            /*
             const producto = this.productos[index];
-            this.modificarNombre = producto.nombre;
-            this.modificarNuevaDescripcion = producto.descripcion;
-            this.modificarNuevoStock = producto.stock;
-            this.modificarNuevoPrecio = producto.precio;
+            this.mNombre = producto.nombre;
+            this.mDescripcion = producto.descripcion;
+            this.mStock = producto.stock;
+            this.mPrecio = producto.precio;*/
         },
     },
 
 
     mounted() {
-    this.listarProductos();
-    this.escuchaEdit();
-}
+        this.listarProductos();
+    }
 });
 
 app.mount('#app');
