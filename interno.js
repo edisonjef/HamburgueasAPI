@@ -13,7 +13,11 @@ const app = Vue.createApp({
             modificarNombre: '',
             modificarNuevaDescripcion: '',
             modificarNuevoStock: '',
-            modificarNuevoPrecio: ''
+            modificarNuevoPrecio: '',
+            mNombre: '',
+            mDescripcion: '',
+            mStock: '',
+            mPrecio: '',
         };
     },
     methods: {
@@ -106,19 +110,22 @@ const app = Vue.createApp({
                 });
         },
         editarProducto(index) {
+            const formulario = document.getElementById('formularioModificar');
+            formulario.scrollIntoView({ behavior: 'smooth' });
+            
+            /*
             const producto = this.productos[index];
-            this.modificarNombre = producto.nombre;
-            this.modificarNuevaDescripcion = producto.descripcion;
-            this.modificarNuevoStock = producto.stock;
-            this.modificarNuevoPrecio = producto.precio;
+            this.mNombre = producto.nombre;
+            this.mDescripcion = producto.descripcion;
+            this.mStock = producto.stock;
+            this.mPrecio = producto.precio;*/
         },
     },
 
 
     mounted() {
-    this.listarProductos();
-    this.escuchaEdit();
-}
+        this.listarProductos();
+    }
 });
 
 app.mount('#app');

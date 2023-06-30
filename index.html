@@ -22,6 +22,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Código</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Stock</th>
@@ -31,15 +32,15 @@
                 </thead>
                 <tbody>
                     <tr v-for="producto in productos" :key="producto.nombre">
+                        <td>{{producto.codigo}}</td>
                         <td>{{ producto.nombre }}</td>
                         <td>{{ producto.descripcion }}</td>
                         <td>{{ producto.stock }}</td>
                         <td>{{ producto.precio }}</td>
-                        <td><button @click="editarProducto(index)">Editar</button></td>
+                        <td><button type="button" @click="editarProducto($index)">Editar</button></td>
                 </tbody>
             </table>
         </div>
-        <a href="#modifi">Editar</a>
         <h2 class="rojo">Consultar Producto</h2>
         <div class="contenedor-centrado">
             <form @submit.prevent="consultarProducto">
@@ -65,20 +66,23 @@
             <div v-if="altaResultado">{{ altaResultado }}</div>
         </form>
         <h2 class="naranja">Modificar Producto</h2>
-        <form @submit.prevent="modificarProducto">
+        <form id="formularioModificar" @submit.prevent="modificarProducto">
             <label for="modificarNombre">Nombre del producto:</label>
-            <input type="text" id="modificarNombre" v-model="modificarNombre" required>
+            <input type="text" id="modificarNombre" v-model="mNombre" required>
             <label for="modificarNuevaDescripcion">Nueva Descripción:</label>
-            <input type="text" id="modificarNuevaDescripcion" v-model="modificarNuevaDescripcion" required>
+            <input type="text" id="modificarNuevaDescripcion" v-model="mDescripcion" required>
             <label for="modificarNuevoStock">Nuevo Stock:</label>
-            <input type="number" id="modificarNuevoStock" v-model="modificarNuevoStock" required>
+            <input type="number" id="modificarNuevoStock" v-model="mStock" required>
             <label for="modificarNuevoPrecio">Nuevo Precio:</label>
-            <input type="number" step="0.01" id="modificarNuevoPrecio" v-model="modificarNuevoPrecio" required>
+            <input type="number" step="0.01" id="modificarNuevoPrecio" v-model="mPrecio" required>
             <button type="submit">Modificar</button>
             <div v-if="modificarResultado">{{ modificarResultado }}</div>
         </form>
+        <h2>{{modificarNombre.value}}</h2>
+        <h2>{{modificarNuevaDescripcion.value}}</h2>
+        <h2>{{modificarNuevoStock.value}}</h2>
+        <h2>{{modificarNuevoPrecio}}</h2>
     </div>
-    <a name="modifi"></a>
     <script src="https://unpkg.com/vue@next"></script>
     <script src="interno.js"></script>
 </body>
