@@ -68,15 +68,15 @@
         <h2 class="naranja">Modificar Producto</h2>
         <form id="formularioModificar" @submit.prevent="modificarProducto">
             <label for="modificarCodigo">Código:</label>
-            <input type="text" id="modificarCodigo" v-model="mCodigo" required>
+            <input type="number" id="modificarCodigo" v-model="modificarCodigo" required>            
             <label for="modificarNombre">Nombre del producto:</label>
-            <input type="text" id="modificarNombre" v-model="mNombre" required>
+            <input type="text" id="modificarNombre" v-model="modificarNombre" required>
             <label for="modificarNuevaDescripcion">Nueva Descripción:</label>
-            <input type="text" id="modificarNuevaDescripcion" v-model="mDescripcion" required>
+            <input type="text" id="modificarNuevaDescripcion" v-model="modificarNuevaDescripcion" required>
             <label for="modificarNuevoStock">Nuevo Stock:</label>
-            <input type="number" id="modificarNuevoStock" v-model="mStock" required>
+            <input type="number" id="modificarNuevoStock" v-model="modificarNuevoStock" required>
             <label for="modificarNuevoPrecio">Nuevo Precio:</label>
-            <input type="number" step="0.01" id="modificarNuevoPrecio" v-model="mPrecio" required>
+            <input type="number" step="0.01" id="modificarNuevoPrecio" v-model="modificarNuevoPrecio" required>
             <button type="submit">Modificar</button>
             <div v-if="modificarResultado">{{ modificarResultado }}</div>
         </form>

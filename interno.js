@@ -10,15 +10,11 @@ const app = Vue.createApp({
             altaDescripcion: '',
             altaStock: '',
             altaPrecio: '',
+            modificarCodigo:'',
             modificarNombre: '',
             modificarNuevaDescripcion: '',
             modificarNuevoStock: '',
             modificarNuevoPrecio: '',
-            mNombre: '',
-            mDescripcion: '',
-            mStock: '',
-            mPrecio: '',
-            mCodigo: ''
         };
     },
     methods: {
@@ -30,12 +26,14 @@ const app = Vue.createApp({
                         this.consultaResultado = `
                             <table>
                                 <tr>
+                                    <th>Código</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Stock</th>
                                     <th>Precio</th>
                                 </tr>
                                 <tr>
+                                    <td>${producto.codigo}</td>
                                     <td>${producto.nombre}</td>
                                     <td>${producto.descripcion}</td>
                                     <td>${producto.stock}</td>
@@ -85,13 +83,14 @@ const app = Vue.createApp({
                 });
         },
         modificarProducto() {
-            fetch(`https://apiedison.pythonanywhere.com/productos/${this.modificarNombre}`, {
+            fetch(`https://apiedison.pythonanywhere.com/productos/${this.modificarCodigo}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    codigo: this.mCodigo,
+                    codigo: this.modificarCodigo,
+                    nombre: this.modificarNombre,
                     descripcion: this.modificarNuevaDescripcion,
                     stock: this.modificarNuevoStock,
                     precio: this.modificarNuevoPrecio
@@ -101,12 +100,13 @@ const app = Vue.createApp({
                     if (response.ok) {
                         response.json()
                             .then(producto => {
-                                this.modificarNombre = '';
+                                this.modificarCodigo = '';
                                 this.modificarNuevaDescripcion = '';
+                                this.modificarNombre = '';
                                 this.modificarNuevoStock = '';
                                 this.modificarNuevoPrecio = '';
                                 this.listarProductos();
-                                this.modificarResultado = JSON.stringify(producto);
+                                this.modificarResultado = 'Modificación realizada';
                             });
                     } else {
                         this.modificarResultado = 'Modificación no efectuada';
